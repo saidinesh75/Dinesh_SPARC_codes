@@ -21,12 +21,12 @@ from tau_calculate import tau_calculate
 
 # System parameters
 
-system_params   = {'P': 10.0,   # Average codeword symbol power constraint
-                 'R': 0.5,      # Rate
-                 'L': 256,      # Number of sections
+system_params   = {'P': 20.0,   # Average codeword symbol power constraint
+                 'R': 0.3,      # Rate
+                 'L': 100,      # Number of sections
                  'M': 512,       # Columns per section
-                 'snr_rx': 31,  # SNR at the receiver  (not in dB)   (SNR of 15 gives a capacity of 2 bits/sec)
-                 'dist': 1      # 0 for flat and 1 for exponential
+                 'snr_rx': 127,  # SNR at the receiver  (not in dB)   (SNR of 15 gives a capacity of 2 bits/sec)
+                 'dist': 1      # 0 for flat and 1 for exponential and 2 for modified PA
                 }
 
 
@@ -75,9 +75,14 @@ for j in range(L):
         beta_T[ int(delim[0,j]) + loc[k],k ] = 1
 
 check = beta-beta_T
-check_sum = np.sum(np.absolute(check),axis=0)/2
+check_sum = np.sum(np.absolute(check),axis=0)
+check_sum[check_sum != 0] = 1
 check_avg = np.average(check_sum)
-# print(check_avg)
+sec_err_rate = check_avg/L
+
 output_params = system_params.copy()
+output_params['frames'] = cols
 output_params['check_avg']=check_avg
+output_params['sec_err_rate']=sec_err_rate
+
 print(output_params)
