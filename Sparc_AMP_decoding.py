@@ -29,7 +29,6 @@ system_params   = {'P': 20.0,   # Average codeword symbol power constraint
                  'dist': 1      # 0 for flat and 1 for exponential and 2 for modified PA
                 }
 
-
 system_params_list = ['P','R','L','M','snr_rx']
 P,R,L,M,snr_rx = map(system_params.get, system_params_list)
 N = L*M 
